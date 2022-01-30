@@ -1,0 +1,229 @@
+Estructura Elemento
+	num valor
+	num ponderacion
+
+Estructura Combinacion
+	num sumaValor
+	num sumaPonderacion
+	num cantidadElementos
+	array num listaPosiciones
+	
+array Elemento leerArchivo (char nombreEntrada, direc num cantidadElementos, direc num limitePonderacion, direct num mayorSumaValoresEncontrada)
+	FILE archivoEntrada																																										(1)
+	//Se abre el archivo de entrada																																							(1)
+	
+	num valor																																												(1)
+	num ponderacion																																											(1)
+	
+	//Extrar la cantidad de elementos y limite de ponderacion del nombreEntrada																												(1)
+	cantidadElementos = leerArchivoEntrada(archivoEntrada)																																	(1)
+	limitePonderacion = leerArchivoEntrada(archivoEntrada)																																	(1)
+	
+	array Elemento listaElementos[cantidadElementos]																																		(1)
+	
+	FOR i=0 TO cantElementos-1																																								(n)
+		valor = leerElemento(archivoEntrada)																																				(n)
+		ponderacion = leerElemento(archivoEntrada)																																			(n)
+		listaElementos[i] = crearElemento(valor, ponderacion)																																n(4)
+		
+		IF valor > mayorSumaValoresEncontrada THEN																																			(n)
+			mayorSumaValoresEncontrada = valor																																				(n)
+		
+		i = i + 1																																											(n)
+		
+	RETURN listaElementos																																									(n)
+	
+	*******************************************************		
+	T(n) = 12 + 11n	
+	O(n)	
+	*******************************************************
+	
+Elemento crearElemento(num valorNuevo, num ponderacionNuevo)
+	Elemento nuevoElemento																																									(1)
+	nuevoElemento.valor = valorNuevo																																						(1)
+	nuevoElemento.ponderacion = ponderacionNuevo																																			(1)
+	
+	RETURN nuevoElemento																																									(1)
+	
+	*******************************************************	
+	T(n) = 4
+	O(1)
+	*******************************************************	
+	
+Combinacion crearCombinacion(Combinacion combinacion, Elemento elementoAgregar, num indiceElemento)
+	Combinacion combinacionResultante																																						(1)
+	combinacionResultante.sumaValor = combinacion.sumaValor + elementoAgregar.valor																											(1)
+	combinacionResultante.sumaPonderacion = combinacion.sumaPonderacion + elementoAgregar.ponderacion																						(1)
+	combinacionResultante.cantidadElementos = combinacionResultante.cantidadElementos + 1																									(1)
+	combinacionResultante.listaPosiciones = Se asigna memoria igual a combinacionResultante.cantidadElementos																				(1)
+	
+	FOR i=0 TO combinacionResultante.cantElementos-1																																		(n)
+		combinacionResultante.listaPosiciones[i] = combinacion.listaPosiciones[i]																											(n)
+	
+	combinacionResultante.listaPosiciones[combinacionResultante.cantidadElementos] = indiceElemento																							(1)
+	
+	RETURN combinacionResultante																																							(1)
+	
+	*******************************************************	
+	T(n) = 7 + 2n
+	O(n)
+	*******************************************************	
+
+Combinacion juntarElementos(Elemento primerElemento, num primerIndice, Elemento segundoElemento, num segundoIndice)
+	Combinacion nuevaCombinacion																																							(1)
+	nuevaCombinacion.sumaValor = primerElemento.valor + segundoElemento.valor																												(1)
+	nuevaCombinacion.sumaPonderacion = primerElemento.ponderacion + segundoElemento.ponderacion																								(1)
+	nuevaCombinacion.cantidadElementos = 2																																					(1)
+	
+	nuevaCombinacion.listaPosiciones = Se asigna memoria para 2 num																															(1)
+
+	nuevaCombinacion.listaPosiciones[0] = primerIndice																																		(1)
+	nuevaCombinacion.listaPosiciones[1] = segundoIndice																																		(1)
+
+	RETURN nuevaCombinacion																																									(1)
+
+	*******************************************************	
+	T(n) = 8
+	O(1)
+	*******************************************************	
+
+Array Combinacion agregarCombinacion(Combinacion listaCombinaciones, direc num cantidadCombinaciones, Combinacion nuevaCombinacion)
+	Combinacion nuevaListaCombinaciones = Se asigna memeria para un elementos mas																											(1)
+	
+	FOR i=0 TO cantidadCombinaciones-1																																						(2^n)	v (n)
+		nuevaListaCombinaciones[i] = listaCombinaciones[i]																																	(2^n)	v (n)
+	
+	nuevaListaCombinaciones[cantidadCombinaciones] = nuevaCombinacion																														(1)
+	
+
+	cantidadCombinaciones = cantidadCombinaciones + 1																																		(1)
+
+	RETURN nuevaListaCombinaciones;																																							(1)
+	
+	*******************************************************	
+	T(n) = 	4 + 2((2^n)-1)
+	O(2^n)
+	*******************************************************	
+
+
+num sePuedeCombinar(Combinacion combinacion, Elemento nuevoElemento, num indiceElemento, num ponderacionMaxima)
+
+	FOR i=0 TO combinacion.cantidadElementos-1																																				(n)
+		IF combinacion.listaPosiciones[i] = indiceElemento THEN																																(1)
+			RETURN 0																																										(1)
+		
+	
+	IF(combinacion.sumaPonderacion + nuevoElemento.ponderacion) <= ponderacionMaxima THEN																									(1)
+		RETURN 1																																											(1)
+	
+	
+	ELSE
+		RETURN 0																																											(1)
+		
+
+	*******************************************************	
+	T(n) = n + 2
+	O(n)
+	*******************************************************	
+	
+
+
+num combinacionUnica(Combinacion listaCombinaciones, num cantidadCombinaciones, Combinacion posibleCombinacion)
+	
+	FOR i=0 TO cantidadCombinaciones-1																																						(2^n)																																				
+		IF listaCombinaciones[i].cantidadElementos = posibleCombinacion.cantidadElementos THEN																								(2^n)*(1)
+			
+			num posicionesIguales = 0;																																						(2^n)*(1)
+			
+			FOR j=0 TO listaCombinaciones[i].cantidadElementos - 1																															(2^n)*(n)
+				
+				FOR k=0 TO posibleCombinacion.cantidadElementos-1																															(2^n)*(n^2)
+				
+					IF listaCombinaciones[i].listaPosiciones[j] = posibleCombinacion.listaPosiciones[k] THEN																				(2^n)*(n^2)*(1)
+					
+						posicionesIguales = posicionesIguales + 1																															(2^n)*(n^2)*(1)
+					
+				
+			
+			
+			IF posicionesIguales = posibleCombinacion.cantidadElementos THEN																												(2^n)
+			
+				RETURN 0																																									(1)
+			
+		
+	
+	
+	RETURN 1																																												(1)
+	
+	*******************************************************	
+	T(n) = 3((2^n)*(n^2)) + n*(2^n) + 3(2^n)
+	O(2^n)
+	*******************************************************	
+	
+Combinacion agregarCombinacion(Combinacion listaCombinaciones, num direc cantidadCombinaciones, Combinacion nuevaCombinacion
+	Array Combinacion nuevaListaCombinaciones = Se asigna memeoria para un elemento mas																										(1)
+	
+	FOR i=0 TO cantidadCombinaciones-1																																						(2^n)
+		nuevaListaCombinaciones[i] = listaCombinaciones[i]																																	((2^n)-1)
+	
+	nuevaListaCombinaciones[cantidadCombinaciones] = nuevaCombinacion																														(1)
+	
+	cantidadCombinaciones = cantidadCombinaciones + 1																																		(1)
+	
+	RETURN nuevaListaCombinaciones;																																							(1)
+
+	*******************************************************	
+	T(n) = 4 + (2^n) + ((2^n)-1)
+	O(2^n)
+	*******************************************************	
+
+MAIN:
+
+	num cantidadElementos																																									(1)
+	num limitePonderacion																																									(1)
+	num mayorSumaValoresEncontrada = 0																																						(1)
+	
+	Array Elemento listaElementos = leerArchivo(nombreEntrada, cantidadElemento, limitePonderacion, mayorSumaValoresEncontrada)																(12 + 11n)															
+	
+	Combinacion listaCombinaciones																																							(1)
+	num cantidadCombinaciones																																								(1)
+	
+	
+	//Se agregan las combinaciones de dos elementos
+	FOR i=0 TO cantidadElementos-1																																							(n)
+		FOR j=i+1 TO cantElementos-1																																						(n)*(n)
+			IF (listaElementos[i].valor + listaElementos[j] <= limitePonderacion)																											(n^2)*(1)
+				nuevaCombinacion = juntarElementos(listaElementos[i], i, listaElementos[j], j)																								(n^2)*(8)
+				listaCombinaciones = agregarCombinacion(listaCombinaciones, cantidadCombinaciones, nuevaCombinacion)																		(n^2)*((n*(n-1))/2)
+				
+				IF nuevaCombinacion.sumaPonderacion > num mayorSumaValoresEncontrada THEN																									(n^2)*(1)
+					num mayorSumaValoresEncontrada = nuevaCombinacion.sumaPonderacion																										(n^2)*(1)
+
+
+	//Se agrega de a un elemento a las combinaciones dobles
+	FOR i=0 TO cantidadCombinaciones-1																																						(2^n)																																				
+		FOR j=0 TO cantidadElementos-1																																						(2^n)*(n)
+			IF sePuedeCombinar(listaCombinaciones[i], listaElementos[j], j, limitePonderacion) THEN																							(2^n)*(n)*(n+2)
+				nuevaCombinacion = crearCombinacion(nuevaCombinacion, listaElementos[j], j)																									(2^n)*(n)*(7+2n)
+				
+				IF combinacionUnica(listaCombinaciones, cantidadCombinaciones, nuevaCombinacion) THEN																						(2^n)*(n)*(3((2^n)*(n^2)) + n*(2^n) + 3(2^n))
+					listaCombinaciones = agregarCombinacion(listaCombinaciones, cantidadCombinaciones, nuevaCombinacion)																	(2^n)*(n)*(4 + 2((2^n)-1))
+					
+					IF nuevaCombinacion.sumaPonderacion > num mayorSumaValoresEncontrada THEN																								(2^n)*(n)*(1)
+						num mayorSumaValoresEncontrada = nuevaCombinacion.sumaPonderacion																									(2^n)*(n)*(1)
+
+
+	
+	MOSTRAR mayorSumaValoresEncontrada																																						(1)
+	
+	RETURN 0																																												(1)
+	
+	
+	*****************************************************************************************************************************************************************************
+	
+	Tiempo de ejecucion teorico del programa:
+	T(n) = 19 + 12n + 13(n^2) + (n^2)*((n*(n-1))/2) + (n^3) + (2^n)*(n^2 + 2n) + (2^n)*(7n + 2(n^2)) + 
+	      (2^n)*(n)*(3((2^n)*(n^2)) + n*(2^n) + 3(2^n)) + (2^n)*(n)*(4 + 2((2^n)-1)) + 2((2^n)*(n))
+		  
+	Orden de complejidad del programa:
+	O(2^n)

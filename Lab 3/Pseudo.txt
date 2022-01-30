@@ -1,0 +1,78 @@
+Pseudo descomposicion y acotamiento
+
+Los nodos tendran la siguiente estructura
+	Beneficio
+	Cota
+	Profundidad
+	Peso
+	hijoIzquierdo
+	hijoDerecho
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Se tiene el conjunto V con todos los elementos del problema dado por n, estos tienen un beneficio (Valoración), peso (ponderación) y b/p (Valoración/Ponderación)
+Se tiene un peso (ponderacion) limite L
+
+
+
+Se crea la base del arbol con beneficio 0
+mayorSolucion = 0
+
+Mientras (hayan hojas viables) hacer
+	Buscar la hoja con mayor cota
+	mayorCota = nodoMayorCota.Cota
+	
+	Si (mayorCota <= mayorSolucion) hacer
+		Salir y retornar mayorSolucion porque no se puede encontrar una mejor solución
+	
+	Si (peso del nodo + peso siguiente elementos <= L) hacer
+		Agregar hijoIzquierdo
+		hijoIzquierdo.profundidad = profundidad del padre + 1
+		hijoIzquierdo.beneficio = beneficio del padre + beneficio del elemento
+		hijoIzquierdo.cota = beneficio del hijo izquierdo + Greedy relajado (V[produndidad hijo izquierdo - n])
+		
+		Si (Beneficio hijo izquierdo = mayorCota) hacer
+			Salir y retornar este valor como solucion optima
+		
+		Si (peso del hijo izquierdo = L) hacer
+			Marcar hijo izquierdo como inviable
+			Si (beneficio del hijo izquierdo > mayor solucion) hacer
+				mayorSolucion = beneficio del hijo izquierdo
+	
+	Sino hacer
+		Marcar hijo izquierdo como inviable
+	
+	
+	Agregar hijoDerecho
+	hijoIzquierdo.profundidad = profundidad del padre + 1
+	hijoIzquierdo.beneficio = beneficio del padre
+	hijoIzquierdo.cota = beneficio del hijo derecho + Greedy relajado (V[produndidad hijo derecho - n])
+	
+	Si (peso del hijo derecho = L) hacer
+			Marcar hijo derecho como inviable
+			Si (beneficio del hijo derecho > mayor solucion) hacer
+				mayorSolucion = beneficio del hijo derecho
+	
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+Greedy relajado (Conjunto, Limite)
+
+Se tiene el conjunto C con todos los elementos del problema, estos tienen un beneficio (Valoración), peso (ponderación) y b/p (Valoración/Ponderación)
+Se tiene un peso limite L'
+
+Se ordena C de mayor a menor con respecto a su b/p
+
+i = 1
+
+Mientras (pesoAcual < L') hacer
+
+	Si (pesoActual + Ci.peso <= L') hacer
+		Beneficio = Beneficio + Ci.beneficio
+		i = i+1
+		
+	Sino hacer
+		Beneficio = Beneficio + ((Ci.b/p) * (L' - pesoActual))
+		i = i+1
